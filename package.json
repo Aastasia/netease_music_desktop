@@ -1,0 +1,169 @@
+{
+  "name": "netease_music_desktop",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "homepage": "./",
+  "author": {
+    "name": "Alvin",
+    "email": "1058990452@qq.com"
+  },
+  "scripts": {
+    "start": "concurrently \"yarn run start:electron\" \"yarn run start:web\"",
+    "start:electron": "wait-on http://localhost:3000 && electron .",
+    "start:web": "cross-env BROWSER=none node scripts/start.js",
+    "build": "yarn run build:web && yarn run build:electron",
+    "build:electron": "webpack --config ./config/webpack-electron.config.js",
+    "build:web": "node scripts/build.js",
+    "release": "electron-builder",
+    "prerelease": "rimraf dist && yarn run build",
+    "pack": "electron-builder --dir",
+    "prepack": "rimraf dist && yarn run build",
+    "dist": "electron-builder",
+    "predist": "rimraf dist && yarn run build",
+    "test": "node scripts/test.js",
+    "lint:style": "stylelint 'src/**/*.ts'"
+  },
+  "build": {
+    "appId": "netease",
+    "productName": "仿网易云音乐",
+    "copyright": "Copyright © year ${author}",
+    "extends": null,
+    "files": [
+      "builder/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "./builder/main.js"
+    },
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi", "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
+      "publisherName": "Alvin"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
+    }
+  },
+  "devDependencies": {
+    "@reduxjs/toolkit": "^1.2.5",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-observable": "^1.2.0",
+    "rxjs": "^6.5.4",
+    "rxjs-hooks": "^0.5.2",
+    "styled-components": "^5.0.1",
+    "typescript": "^3.8.2",
+    "@babel/core": "7.8.4",
+    "@svgr/webpack": "4.3.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.7",
+    "@types/styled-components": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "8.0.6",
+    "babel-plugin-named-asset-import": "^0.3.6",
+    "babel-preset-react-app": "^9.1.1",
+    "camelcase": "^5.3.1",
+    "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "css-loader": "3.4.2",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.0",
+    "electron-is-dev": "^1.1.0",
+    "dotenv": "8.2.0",
+    "dotenv-expand": "5.1.0",
+    "electron": "6",
+    "electron-builder": "21.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-loader": "3.0.3",
+    "eslint-plugin-flowtype": "4.6.0",
+    "eslint-plugin-import": "2.20.0",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.18.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "file-loader": "4.3.0",
+    "fs-extra": "^8.1.0",
+    "html-webpack-plugin": "4.0.0-beta.11",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "24.9.0",
+    "jest-environment-jsdom-fourteen": "1.0.1",
+    "jest-resolve": "24.9.0",
+    "jest-watch-typeahead": "0.4.2",
+    "mini-css-extract-plugin": "0.9.0",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "pnp-webpack-plugin": "1.6.0",
+    "postcss-flexbugs-fixes": "4.1.0",
+    "postcss-loader": "3.0.0",
+    "postcss-normalize": "8.0.1",
+    "postcss-preset-env": "6.7.0",
+    "postcss-safe-parser": "4.0.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-dev-utils": "^10.2.0",
+    "resolve": "1.15.0",
+    "resolve-url-loader": "3.1.1",
+    "rimraf": "^3.0.2",
+    "sass-loader": "8.0.2",
+    "semver": "6.3.0",
+    "style-loader": "0.23.1",
+    "stylelint": "^13.2.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
+    "ts-loader": "^6.2.1",
+    "terser-webpack-plugin": "2.3.4",
+    "ts-pnp": "1.1.5",
+    "url-loader": "2.3.0",
+    "wait-on": "^4.0.0",
+    "webpack": "4.41.5",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "3.10.2",
+    "webpack-manifest-plugin": "2.2.0",
+    "workbox-webpack-plugin": "4.3.1"
+  }
+}
